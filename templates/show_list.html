@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_task') }}" method=post class=add-task>
+      <dl>
+        <dt>Task Description:
+        <dd><input type=text size=30 name="description">
+        <dd><input type=submit value=Add to list!>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+    {% for task in tasks %}
+      <li><h2>{{ task.description }}</h2>
+        <table>
+          <form action="{{ url_for('complete_task', taskID=task.id) }}" method="post">
+            <button type="submit">Complete</button>
+          </form>
+          <form action="{{ url_for('edit_task', taskID=task.id) }}" method="post">
+            <button type="submit">Edit</button>
+          </form>
+          <form action="{{ url_for('delete_task', taskID=task.id) }}" method="post">
+            <button type="submit">Delete</button>
+          </form>
+        </table>
+    {% else %}
+      <li><em>There is nothing on your To-Do List at the moment.</em>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+
